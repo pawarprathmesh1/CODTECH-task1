@@ -1,0 +1,156 @@
+/*this is task 1. It include 3 files that is index.html and style.css and script.js. I make all in one file using inline.  */
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("wall2.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      margin-top: 16%;
+      padding: 0 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: rgb(242, 238, 238);
+
+    }
+
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+
+
+    button {
+      padding: 10px 20px;
+      color: black;
+      font-weight: bold;
+      background: transparent;
+      cursor: pointer;
+      color: white;
+      border: none;
+      background-color: orangered;
+    }
+
+    button:hover {
+
+      background: #03e9f5;
+      color: #050801;
+      box-shadow: 0px 0px 25px #03e9f5,
+        0px 0px 50px #03e9f5,
+        0px 0px 75px #03e9f5,
+        0px 0px 10px #03e9f5;
+      border: none;
+    }
+
+
+  
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .completed {
+      text-decoration: line-through;
+    }
+  </style>
+
+
+
+</head>
+
+<body>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <input type="text" id="taskInput" placeholder="Enter task...">
+    <button onclick="addTask()">Add Your task</button>
+    <ul id="taskList"></ul>
+  </div>
+
+
+  <script>
+
+    // Retrieving tasks from local storage
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    // Display tasks
+    function displayTasks() {
+      const taskList = document.getElementById('taskList');
+      taskList.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<input type="checkbox" onchange="toggleTask(${index})" ${task.completed ? 'checked' : ''}>
+                    <span class="${task.completed ? 'completed' : ''}">${task.description}</span>
+                    <button onclick="editTask(${index})">Edit</button>
+                    <button onclick="deleteTask(${index})">Delete</button>`;
+        taskList.appendChild(li);
+      });
+    }
+
+    // Add task
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const description = taskInput.value.trim();
+      if (description !== '') {
+        tasks.push({ description, completed: false });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        taskInput.value = '';
+        displayTasks();
+      } else {
+        alert('Please enter a task!');
+      }
+    }
+
+    // Toggle task completion
+    function toggleTask(index) {
+      tasks[index].completed = !tasks[index].completed;
+      localStorage.setItem('Your task', JSON.stringify(tasks));
+      displayTasks();
+    }
+
+    // Edit task
+    function editTask(index) {
+      const newDescription = prompt('What do you want to edit', tasks[index].description);
+      if (newDescription !== null) {
+        tasks[index].description = newDescription.trim();
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        displayTasks();
+      }
+    }
+
+    // Delete task
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      displayTasks();
+    }
+
+    // Display initial tasks
+    displayTasks();
+
+
+  </script>
+</body>
+
+</html>
