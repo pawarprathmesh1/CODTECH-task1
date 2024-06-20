@@ -19,7 +19,7 @@ Objective:-
 
 Explanation:-
 
-          HTML: Defines the structure of the page with an input field for adding tasks, a button to add tasks, and a <ul> element to 
+          HTML: Defines the structure of the  page with an input field for adding tasks, a button to add tasks, and a <ul> element to 
           contain the tasks.
 
           CSS: Provides basic styling to make the app look presentable and user-friendly.
